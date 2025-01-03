@@ -1,5 +1,5 @@
 {%  extends 'accounts/main.html' %}
-
+<style> .filter-form { display: flex; align-items: center; gap: 10px; /* Adjust the spacing as needed */ } .filter-form input, .filter-form select, .filter-form button { margin: 0; /* Remove any default margins */ } </style>
 {% block content %}
     <br>
 
@@ -8,8 +8,8 @@
         <div class="card card-body">
         <h5>Customer: {{ customer.name }}</h5>
         <hr>
-        <a class ="btn btn-outline-info  btn-sm btn-block" href="">update Customer</a>
-        <a class ="btn btn-outline-danger  btn-sm btn-block" href="">Delete Customer</a>
+        <a class ="btn btn-outline-info  btn-sm btn-block" href="{% url 'create_product' customer.id %}">Create Product!</a>
+        <a class ="btn btn-outline-danger  btn-sm btn-block" href="{% url 'create_order' customer.id %}">add/update Order</a>
 
         </div>
     </div>
@@ -37,11 +37,21 @@
 <div class="row">
     <div class="col">
         <div class="card card-body">
-            <form method="get">
 
-                <button class="btn btn-prrimary" type="submit">Search</button>
+            <form  method="get">
+                <table class="table table-sm">
+                    {% for field in filter.form %}
+                       <tr>
+                           <td>{{ field.label_tag }}</td>
+                           <td>{{ field }}</td>
+                       </tr>
+                    {% endfor %}
+                </table>
+
+                <button class="btn btn-sm btn-info" type="submit">Search</button>
 
             </form>
+
         </div>
     </div>
 </div>
@@ -68,8 +78,8 @@
                         <td>{{ order.product.category }}</td>
                         <td>{{ order.product.date_created }}</td>
                         <td>{{ order.status }}</td>
-                        <td><a class="btn btn-sm btn-info" href="">Update</a></td>
-                        <td><a class="btn btn-sm btn-danger" href="">Remove</a></td>
+                        <td><a class="btn btn-sm btn-info" href="{% url 'update_order' order.id %}">Update</a></td>
+                        <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' order.id%}">Remove</a></td>
 
                     </tr>
                 {% endfor %}
